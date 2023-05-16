@@ -1,0 +1,27 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "src/"
+  ],
+  "devDependencies": {
+    "@commitlint/cli": "^17.6.3",
+    "@commitlint/config-conventional": "^17.6.3",
+    "@types/react": "^18.2.6",
+    "@types/react-dom": "^18.2.4",
+    "babel-jest": "^29.5.0",
+    "husky": "^8.0.0",
+    "jest-environment-jsdom": "^29.5.0",
+    "lerna": "^6.6.1"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "scripts": {
+    "prepare": "husky install",
+    "build": "lerna run build",
+    "start": "lerna run storybook",
+    "test": "lerna run test"
+  }
+}
