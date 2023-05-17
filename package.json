@@ -13,12 +13,16 @@
     "babel-jest": "^29.5.0",
     "husky": "^8.0.0",
     "jest-environment-jsdom": "^29.5.0",
-    "lerna": "^6.6.1"
+    "lerna": "^6.6.1",
+    "prettier": "2.8.8"
   },
   "scripts": {
     "prepare": "husky install",
     "build": "lerna run build",
     "start": "lerna run storybook",
     "test": "lerna run test"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   }
 }

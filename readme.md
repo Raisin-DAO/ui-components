@@ -29,6 +29,7 @@ To get started with the project, follow these steps:
    ```
    npm install
    ```
+
 4. Install library dependencies:
 
    ```
@@ -39,12 +40,13 @@ To get started with the project, follow these steps:
 
 The repository is structured as a monorepo managed by Lerna. Here are some useful commands for the development workflow:
 
-* `npm run build`: Builds the project using Rollup.
-* `npm run start`: Starts the development server with Storybook.
-* `npm run test`: Runs the test suite using Jest.
-* `npm run prepare`(Optional): Sets up the project with husky.
+- `npm run build`: Builds the project using Rollup.
+- `npm run start`: Starts the development server with Storybook.
+- `npm run test`: Runs the test suite using Jest.
+- `npm run prepare`(Optional): Sets up the project with husky.
 
 ## Contributing
+
 Contributions to Raisin UI Components are welcome! If you find any bugs, have feature requests, or want to contribute enhancements, please follow these steps:
 
 Fork the repository.
