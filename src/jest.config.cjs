@@ -7,7 +7,7 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.js'],
   testPathIgnorePatterns: ['<rootDir>/node_modules/'],
   transform: {
-    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest'
+    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 };
