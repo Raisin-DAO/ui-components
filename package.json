@@ -15,10 +15,6 @@
     "jest-environment-jsdom": "^29.5.0",
     "lerna": "^6.6.1"
   },
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
   "scripts": {
     "prepare": "husky install",
     "build": "lerna run build",
