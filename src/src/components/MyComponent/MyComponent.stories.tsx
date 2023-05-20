@@ -1,6 +1,7 @@
 import React from 'react';
 import { StoryFn, Meta } from '@storybook/react';
 import { MyComponent, MyComponentProps } from './MyComponent';
+import '../../index.css';
 
 export default {
   title: 'MyComponent',
