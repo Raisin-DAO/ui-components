@@ -1,3 +1,4 @@
+import json from '@rollup/plugin-json';
 import typescript from '@rollup/plugin-typescript';
 import fs from 'fs';
 
@@ -13,5 +14,5 @@ export default {
     },
   ],
   external: ['react', 'react-dom'],
-  plugins: [typescript({ tsconfig: './tsconfig.json' })],
+  plugins: [json(), typescript({ tsconfig: './tsconfig.json' })],
 };
