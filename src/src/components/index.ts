@@ -1,1 +1,2 @@
-export { MyComponent } from './MyComponent/MyComponent';
+export { RaisinConfig } from './RaisinConfig/RaisinConfig';
+export { NewFund } from './NewFund/NewFund';

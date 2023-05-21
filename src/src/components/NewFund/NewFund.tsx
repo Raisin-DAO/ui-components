@@ -1,80 +1,55 @@
 import React, { useState } from 'react';
-import { useAccount, useConnect, useEnsName } from 'wagmi';
-import { InjectedConnector } from 'wagmi/connectors/injected'
+import { useAccount, useConnect, useContractWrite, useWaitForTransaction } from 'wagmi';
+import { InjectedConnector } from 'wagmi/connectors/injected';
+import { usePrepareContractWrite } from 'wagmi';
+import abi from '../../shared/abi.json';
 
 const initialState = {
-  goal: '',
-  token: '',
-  receiver: '',
+  goal: 100 * 18,
+  token: '0x7A56e2F6e2965a3569Fe3BD9c8f65E565C0941ef',
+  receiver: '0x6e8CdBE9CB9A90F75Fe4D5B2F08B9181b04f4Ea9',
 };
 
 export const NewFund: React.FC = () => {
   const [formState, setFormState] = useState(initialState);
   const [errors, setErrors] = useState(initialState);
-  const { address, isConnected } = useAccount()
+  const { address, isConnected } = useAccount();
   const { connect } = useConnect({
     connector: new InjectedConnector(),
-  })
-
-  const validateForm = () => {
-    let tempErrors = { ...initialState };
-    let isValid = true;
-
-    if (!formState.goal || isNaN(Number(formState.goal))) {
-      tempErrors.goal = 'Please provide a valid number for Goal';
-      isValid = false;
-    }
-
-    if (!formState.token) {
-      tempErrors.token = 'Please select a token';
-      isValid = false;
-    }
-
-    if (!formState.receiver.match(/^0x[a-fA-F0-9]{40}$/)) {
-      tempErrors.receiver = 'Please provide a valid ETH address';
-      isValid = false;
-    }
-
-    setErrors(tempErrors);
-    return isValid;
-  };
+  });
+  const { config } = usePrepareContractWrite({
+    address: '0x7e37Cd627C75DB9b76331F484449E5d98D5C82c5',
+    abi,
+    functionName: 'initFund',
+    args: [formState.goal, formState.token, formState.receiver],
+  });
+  const { data, write } = useContractWrite(config);
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: data?.hash,
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (validateForm()) {
-      console.log(formState);
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormState({ ...formState, [e.target.name]: e.target.value });
+    formState.goal = 1 * 10 ** 18;
+    formState.token = '0x7A56e2F6e2965a3569Fe3BD9c8f65E565C0941ef';
+    formState.receiver = '0x6e8CdBE9CB9A90F75Fe4D5B2F08B9181b04f4Ea9';
+    console.log('gm', formState);
+    write?.();
   };
 
   return (
     <>
       {isConnected ? <div>GM: {address}</div> : <button onClick={() => connect()}>Connect Wallet</button>}
       <form onSubmit={handleSubmit}>
-        <label>
-          Goal:
-          <input type="text" name="goal" onChange={handleChange} />
-          {errors.goal && <div>{errors.goal}</div>}
-        </label>
-        <label>
-          Token:
-          <select name="token" onChange={handleChange}>
-            <option value="">--Select Token--</option>
-            <option value="eth">ETH</option>
-            <option value="matic">MATIC</option>
-            <option value="usdt">USDT</option>
-          </select>
-          {errors.token && <div>{errors.token}</div>}
-        </label>
-        <label>
-          Receiver:
-          <input type="text" name="receiver" onChange={handleChange} />
-          {errors.receiver && <div>{errors.receiver}</div>}
-        </label>
-        <button type="submit">Submit</button>
+        <button disabled={!write || isLoading}>{isLoading ? 'Creating...' : 'Mint'}</button>
+        {isSuccess && (
+          <div>
+            Successfully created!
+            <div>
+              <a href={`https://sepolia.etherscan.io/tx/${data?.hash}`}>Etherscan</a>
+            </div>
+          </div>
+        )}
       </form>
     </>
   );
