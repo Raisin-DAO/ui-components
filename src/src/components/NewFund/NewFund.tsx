@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useAccount, useConnect, useEnsName } from 'wagmi';
+import { InjectedConnector } from 'wagmi/connectors/injected'
 
 const initialState = {
   goal: '',
@@ -9,6 +11,10 @@ const initialState = {
 export const NewFund: React.FC = () => {
   const [formState, setFormState] = useState(initialState);
   const [errors, setErrors] = useState(initialState);
+  const { address, isConnected } = useAccount()
+  const { connect } = useConnect({
+    connector: new InjectedConnector(),
+  })
 
   const validateForm = () => {
     let tempErrors = { ...initialState };
@@ -45,28 +51,31 @@ export const NewFund: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Goal:
-        <input type="text" name="goal" onChange={handleChange} />
-        {errors.goal && <div>{errors.goal}</div>}
-      </label>
-      <label>
-        Token:
-        <select name="token" onChange={handleChange}>
-          <option value="">--Select Token--</option>
-          <option value="eth">ETH</option>
-          <option value="matic">MATIC</option>
-          <option value="usdt">USDT</option>
-        </select>
-        {errors.token && <div>{errors.token}</div>}
-      </label>
-      <label>
-        Receiver:
-        <input type="text" name="receiver" onChange={handleChange} />
-        {errors.receiver && <div>{errors.receiver}</div>}
-      </label>
-      <button type="submit">Submit</button>
-    </form>
+    <>
+      {isConnected ? <div>GM: {address}</div> : <button onClick={() => connect()}>Connect Wallet</button>}
+      <form onSubmit={handleSubmit}>
+        <label>
+          Goal:
+          <input type="text" name="goal" onChange={handleChange} />
+          {errors.goal && <div>{errors.goal}</div>}
+        </label>
+        <label>
+          Token:
+          <select name="token" onChange={handleChange}>
+            <option value="">--Select Token--</option>
+            <option value="eth">ETH</option>
+            <option value="matic">MATIC</option>
+            <option value="usdt">USDT</option>
+          </select>
+          {errors.token && <div>{errors.token}</div>}
+        </label>
+        <label>
+          Receiver:
+          <input type="text" name="receiver" onChange={handleChange} />
+          {errors.receiver && <div>{errors.receiver}</div>}
+        </label>
+        <button type="submit">Submit</button>
+      </form>
+    </>
   );
 };
