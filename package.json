@@ -20,7 +20,8 @@
     "prepare": "husky install",
     "build": "lerna run build",
     "start": "lerna run storybook",
-    "test": "lerna run test"
+    "test": "lerna run test",
+    "create-component": "node createComponent.js"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
