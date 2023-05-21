@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Address, useAccount, useConnect, useContractWrite, useWaitForTransaction } from 'wagmi';
-import { InjectedConnector } from 'wagmi/connectors/injected';
+import { Address, useContractWrite, useWaitForTransaction } from 'wagmi';
 import { usePrepareContractWrite } from 'wagmi';
 import abi from '../../shared/abi.json';
 
@@ -44,12 +43,6 @@ export const NewFund: React.FC = () => {
   });
 
   const [isValid, setIsValid] = useState(false);
-
-  const { address, isConnected } = useAccount();
-
-  const { connect } = useConnect({
-    connector: new InjectedConnector(),
-  });
 
   const { config } = usePrepareContractWrite({
     address: '0x7e37Cd627C75DB9b76331F484449E5d98D5C82c5',
@@ -119,8 +112,6 @@ export const NewFund: React.FC = () => {
 
   return (
     <>
-      {isValid ? 'hello' : 'no'}
-      {isConnected ? <div>GM: {address}</div> : <button onClick={() => connect()}>Connect Wallet</button>}
       <form onSubmit={handleSubmit}>
         <div>
           <label>Goal</label>

@@ -1,4 +1,3 @@
-// createComponent.js
 const fs = require('fs');
 const path = require('path');
 
@@ -66,3 +65,17 @@ test('renders component', () => {
 );
 
 console.log(`Component ${componentName} was created successfully.`);
+
+const indexFile = './src/src/components/index.ts';
+
+if (fs.existsSync(indexFile)) {
+  let exportString = `export { ${componentName} } from './${componentName}/${componentName}';\n`;
+  let content = fs.readFileSync(indexFile, 'utf-8');
+  content += exportString;
+  let lines = content.split('\n');
+  lines = lines.slice(0, -1).sort().concat('');
+  fs.writeFileSync(indexFile, lines.join('\n'));
+} else {
+  console.error(`Index file doesn't exist.`);
+  process.exit(1);
+}

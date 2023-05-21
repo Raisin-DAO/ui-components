@@ -1,20 +1,18 @@
 import React from 'react';
 import { StoryFn, Meta } from '@storybook/react';
-import { NewFund } from './NewFund';
+import { LoginButton } from './LoginButton';
 import { RaisinConfig } from '../RaisinConfig/RaisinConfig';
-import { LoginButton } from '../LoginButton/LoginButton';
 
 export default {
-  title: 'NewFund',
-  component: NewFund,
+  title: 'LoginButton',
+  component: LoginButton,
   tags: ['autodocs'],
 } as Meta;
 
 const Template: StoryFn = (args) => {
   return (
     <RaisinConfig>
-      <LoginButton />
-      <NewFund {...args} />
+      <LoginButton {...args} />
     </RaisinConfig>
   );
 };
